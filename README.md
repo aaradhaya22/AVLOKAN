@@ -1,338 +1,263 @@
 # AVLOKAN
 
-### Sovereign Semantic Earth-Observation Intelligence Platform
+### Sovereign Earth-Observation Intelligence Platform
 
-AVLOKAN is an on-premises satellite-imagery intelligence platform for
-**semantic retrieval, multi-temporal change detection, multi-sensor
-verification, discovery, and analyst review**.
+> **Search the Earth. Detect change. Verify evidence. Preserve provenance.**
 
-It combines optical and SAR Earth-observation data with multimodal
-embeddings, pixel-level change verification, spatial indexing,
-provenance tracking, and an analyst-oriented review workflow.
+AVLOKAN is an **on-premises satellite-imagery intelligence platform** built for semantic search, temporal change detection, false-alarm suppression, multi-sensor verification, and analyst-led investigation.
 
-> **Smart India Hackathon 2026 · Problem Statement SIH26227 · Space
-> Technology · Software**\
-> **Team:** Codenostic · **Team ID:** 171288
+It transforms large Earth-observation archives into a searchable intelligence layer — helping analysts move from **“Where should I look?”** to **“What changed, and what evidence supports it?”**
 
-------------------------------------------------------------------------
+**Smart India Hackathon 2026 · SIH26227 · Space Technology**
+**Team Codenostic · Team ID 171288**
 
-## Overview
+---
 
-Satellite imagery archives are growing faster than analysts can manually
-inspect them. AVLOKAN turns that archive into a searchable and
-continuously analyzable intelligence layer.
+## Why AVLOKAN?
 
-``` text
-Data Acquisition
-      ↓
-Ingestion & Preprocessing
-      ↓
-Quality Control & Co-registration
-      ↓
-Tiling & Metadata
-      ↓
-Embedding Generation
-      ↓
-Vector Indexing
-      ↓
-Semantic / Image Retrieval
-      ↓
-Multi-Temporal Change Detection
-      ↓
-Multi-Sensor Verification
-      ↓
-Analyst Review
-      ↓
-Provenance & Audit
-      ↓
-Incremental Improvement
+Satellite archives are growing rapidly, while manually inspecting every scene is slow and prone to false alarms.
+
+AVLOKAN combines **AI retrieval, temporal analysis, optical + SAR evidence, and analyst review** into a single sovereign workflow.
+
+```text
+        SATELLITE ARCHIVE
+               │
+               ▼
+        ┌───────────────┐
+        │ Semantic      │
+        │ Search        │
+        └───────┬───────┘
+                │
+                ▼
+        ┌───────────────┐
+        │ Change        │
+        │ Detection     │
+        └───────┬───────┘
+                │
+                ▼
+        ┌───────────────┐
+        │ False-Alarm   │
+        │ Suppression   │
+        └───────┬───────┘
+                │
+                ▼
+        ┌───────────────┐
+        │ Optical + SAR │
+        │ Verification  │
+        └───────┬───────┘
+                │
+                ▼
+        ┌───────────────┐
+        │ Evidence-Backed│
+        │ Verdict        │
+        └───────┬───────┘
+                │
+                ▼
+        ┌───────────────┐
+        │ Analyst Review│
+        │ + Provenance  │
+        └───────────────┘
 ```
 
-The platform is designed for **sovereign, offline, on-premises
-deployment**, where imagery, queries, metadata, models, and analyst
-decisions remain inside the controlled environment.
+---
 
-------------------------------------------------------------------------
+# Core Capabilities
 
-# Key Capabilities
+### 🔎 Semantic & Image Search
 
-## 1. Semantic & Multimodal Retrieval
+Search satellite archives using **natural language or imagery**.
 
-AVLOKAN supports both natural-language and image-based satellite imagery
-search.
+Examples:
 
-### Text-to-Image
+* `Newly constructed buildings`
+* `Infrastructure development`
+* `Cleared land near an existing facility`
 
-Analysts can search using natural language, for example:
+Results can be refined using **similarity, geography, acquisition date, sensor, metadata, and spatial context**.
 
-``` text
-Newly constructed buildings and infrastructure development
+Powered by Earth-observation multimodal embeddings and FAISS.
+
+---
+
+### 🛰️ Multi-Temporal Change Detection
+
+Compare observations from different points in time to identify localized changes.
+
+```text
+Before Image ──┐
+               ├──► Alignment & Quality Check
+After Image  ──┘
+                        │
+                        ▼
+                 Candidate Detection
+                        │
+                        ▼
+                  Pixel Verification
+                        │
+                        ▼
+                   Change Map
 ```
 
-The query is encoded into the same embedding space as indexed satellite
-imagery and matched using vector similarity.
+AVLOKAN produces:
 
-### Image-to-Image
+* Before / after imagery
+* Change probability maps
+* Change masks
+* Candidate regions
+* Spatial geometry
+* Candidate-level evidence
 
-An analyst can upload a satellite image and retrieve visually and
-semantically similar scenes from the indexed archive.
+---
 
-### Retrieval Filters
+### 🛡️ False-Alarm Suppression
 
-Results can be filtered and ranked using:
+Not every visual difference represents a real-world change.
 
--   Similarity
--   Geographic area
--   Acquisition date
--   Sensor
--   Scene metadata
--   Spatial context
+AVLOKAN explicitly accounts for factors such as:
 
-The retrieval layer is powered by a FAISS vector index and multimodal
-Earth-observation embeddings.
+**Clouds · Haze · Shadows · Snow · SAR noise · Radiometric differences · Geometric misalignment · Insufficient usable imagery**
 
-------------------------------------------------------------------------
+Quality control includes normalization, masking, co-registration, spatial alignment, and sensor-specific processing.
 
-# 2. Multi-Temporal Change Detection
+The goal is simple:
 
-AVLOKAN compares satellite observations acquired at different points in
-time to identify localized changes.
+> **Reduce apparent changes before they become analyst alerts.**
 
-``` text
-T1 / Before Image
-       │
-       ▼
-Quality & Alignment Checks
-       │
-       ▼
-Embedding-Level Candidate Gate
-       │
-       ▼
-BIT Pixel-Level Verification
-       │
-       ▼
-Probability Map
-       │
-       ▼
-Post-processing
-       │
-       ▼
-Retained Change Candidates
+---
+
+### 📡 Multi-Sensor Verification
+
+AVLOKAN does not rely on a single observation source.
+
+It combines:
+
+**Sentinel-2 Optical + Sentinel-1 SAR**
+
+to provide complementary evidence.
+
+```text
+             Optical Evidence
+                    │
+                    ├──────┐
+                    │      │
+                    ▼      ▼
+                 Evidence  Sensor
+                  Fusion   Agreement
+                    ▲
+                    │
+                    │
+                SAR Evidence
 ```
 
-The system produces:
+This enables the system to distinguish between:
 
--   Before imagery
--   After imagery
--   Per-pixel change probability
--   Raw model mask
--   Final retained change mask
--   Candidate regions
--   Candidate-level evidence
--   Spatial geometry
--   Processing provenance
+* Optical-supported change
+* SAR-supported change
+* Cross-sensor agreement
+* Weak or conflicting evidence
 
-------------------------------------------------------------------------
+---
 
-# 3. Change Probability Heatmap
+# 🧠 Evidence-Backed Verdicts
 
-Change probability is visualized directly over the analyzed satellite
-scene.
+This is the core idea behind **AVLOKAN**.
 
-``` text
-LOW CHANGE PROBABILITY
-        ↓
-      Yellow
-        ↓
-      Orange
-        ↓
-        Red
-        ↓
-HIGH CHANGE PROBABILITY
+Instead of simply saying:
+
+> **“Change detected.”**
+
+AVLOKAN provides the analyst with the evidence behind the finding:
+
+```text
+CHANGE CANDIDATE
+       │
+       ├── Before / After imagery
+       ├── Change probability
+       ├── Spatial extent
+       ├── Optical evidence
+       ├── SAR evidence
+       ├── Sensor agreement
+       ├── Data quality
+       └── Processing provenance
+                │
+                ▼
+       Evidence-Backed Verdict
+                │
+                ▼
+          Analyst Review
 ```
 
-The visualization allows analysts to move from broad change regions to
-individual retained candidates.
+The **analyst remains in control** of the final decision.
 
-------------------------------------------------------------------------
+---
 
-# 4. Multi-Sensor Change Verification
+# 🔭 Discovery & Similar-Site Analysis
 
-AVLOKAN combines optical and radar evidence to improve change
-interpretation.
+A confirmed location can become a starting point for discovering similar locations across the archive.
 
-### Sentinel-2 Optical
-
-Multispectral imagery provides spectral information useful for
-identifying:
-
--   Construction
--   Land-cover changes
--   Clearance
--   Vegetation changes
--   Surface changes
-
-### Sentinel-1 SAR
-
-Sentinel-1 C-band SAR provides complementary radar observations and
-enables monitoring under conditions where optical imagery is degraded.
-
-The SAR pipeline works with VV and VH polarizations and produces
-deterministic radar change evidence.
-
-``` text
-Sentinel-2 Optical Evidence
-            │
-            ├──────────────┐
-            │              │
-            ▼              ▼
-       Optical        Sensor Agreement
-       Evidence             ▲
-            │              │
-            │              │
-Sentinel-1 SAR Evidence ───┘
-            │
-            ▼
-      Fusion Evidence
-```
-
-------------------------------------------------------------------------
-
-# 5. Sensor Agreement
-
-AVLOKAN evaluates agreement between optical change evidence and SAR
-evidence.
-
-The system provides:
-
--   Optical evidence
--   SAR evidence
--   Sensor agreement
--   Evidence fusion
--   Data-quality contribution
--   Candidate-level evidence score
-
-  Optical Evidence   SAR Evidence   Interpretation
-  ------------------ -------------- ---------------------------------
-  High               High           High sensor agreement
-  High               Low            Optical-dominant evidence
-  Low                High           SAR-dominant evidence
-  Low                Low            No strong cross-sensor evidence
-
-The evidence layer is explicitly separated from calibrated statistical
-probability.
-
-------------------------------------------------------------------------
-
-# 6. False-Alarm Suppression
-
-Satellite imagery contains many sources of apparent change that are not
-meaningful physical changes.
-
-AVLOKAN incorporates quality-control and normalization stages before
-producing trusted change candidates.
-
-The processing pipeline considers:
-
--   Cloud
--   Cloud shadow
--   Haze
--   Snow
--   Invalid pixels
--   SAR noise
--   Insufficient usable imagery
--   Radiometric inconsistency
--   Geometric misalignment
-
-Processing includes:
-
--   Reflectance normalization
--   SAR radiometric processing
--   Terrain correction
--   Co-registration checks
--   Spatial alignment
--   Quality masking
-
-------------------------------------------------------------------------
-
-# 7. Discovery & Similar-Site Analysis
-
-Once an analyst identifies an area of interest, AVLOKAN can search the
-archive for visually or semantically related locations.
-
-``` text
+```text
 Confirmed Site
-     ↓
+      ↓
 Generate Embedding
-     ↓
+      ↓
 Search Archive
-     ↓
+      ↓
 Similarity Ranking
-     ↓
-Discovery / Clustering
-     ↓
+      ↓
 Related Sites
 ```
 
-The discovery layer uses embedding similarity and clustering to group
-related scenes and surface similar areas for further investigation.
+This supports investigation beyond a single area of interest.
 
-------------------------------------------------------------------------
+---
 
-# 8. Analyst Review Queue
+# 📋 Analyst-in-the-Loop
 
-AVLOKAN is designed around an analyst-in-the-loop workflow.
+AVLOKAN is designed as an intelligence-support system, not a black-box decision maker.
 
-Detected candidates are presented with:
+Analysts can inspect:
 
--   Before image
--   After image
--   Change visualization
--   Location
--   Acquisition dates
--   Sensor
--   Evidence
--   Provenance
--   Candidate metrics
--   Confirm / Reject controls
+* Before / after imagery
+* Change visualization
+* Location
+* Acquisition dates
+* Sensor information
+* Evidence
+* Candidate metrics
+* Processing history
+* Provenance
 
-Analysts can validate individual findings rather than manually scanning
-the entire imagery archive.
+and **Confirm / Reject** individual findings.
 
-------------------------------------------------------------------------
+---
 
-# 9. Provenance & Audit Trail
+# 🧾 Provenance & Auditability
 
-Every analytical result is associated with its processing lineage.
+Every analytical result can be traced back through its processing lineage.
 
-The provenance layer records:
+AVLOKAN records information such as:
 
--   Analysis ID
--   Source observations
--   Acquisition timestamps
--   Sensor
--   Input raster paths
--   Coordinate reference system
--   Model checkpoint
--   Model configuration
--   Processing stages
--   Thresholds
--   Runtime measurements
--   Generated artifacts
--   Analyst decisions
+* Source observations
+* Acquisition timestamps
+* Sensor
+* Input imagery
+* CRS
+* Model checkpoint
+* Configuration
+* Processing stages
+* Thresholds
+* Generated artifacts
+* Analyst decisions
 
-Review decisions are written into an audit history so findings remain
-traceable from analyst action back to source imagery and processing
-configuration.
+This makes findings **traceable, reproducible, and reviewable**.
 
-------------------------------------------------------------------------
+---
 
-# 10. Incremental Indexing
+# ⚡ Incremental Intelligence
 
-AVLOKAN is designed to grow without rebuilding the complete vector index
-every time new imagery arrives.
+New imagery does not require rebuilding the entire archive.
 
-``` text
+```text
 New Scene
    ↓
 Preprocess
@@ -341,567 +266,211 @@ Tile
    ↓
 Generate Embedding
    ↓
-Append Vector
+Append to Index
    ↓
 Update Metadata
    ↓
 Immediately Searchable
 ```
 
-The indexing layer uses FAISS with ID-mapped vectors and supports
-incremental insertion of new imagery.
+AVLOKAN uses an incremental vector-indexing architecture to support continuously growing archives.
 
-------------------------------------------------------------------------
+---
 
-# 11. Sovereign & Offline Architecture
+# 🏗️ Architecture
 
-AVLOKAN is designed for environments where cloud access is undesirable
-or unavailable.
-
-``` text
-┌───────────────────────────────────────────┐
-│              AVLOKAN NODE                 │
-│                                           │
-│  Satellite Data                           │
-│       ↓                                   │
-│  Preprocessing                            │
-│       ↓                                   │
-│  AI / Embeddings                          │
-│       ↓                                   │
-│  FAISS / Metadata                         │
-│       ↓                                   │
-│  FastAPI                                  │
-│       ↓                                   │
-│  Analyst Workstation                     │
-│                                           │
-└───────────────────────────────────────────┘
+```text
+                 SATELLITE DATA
+             S1 / S2 / Landsat / EO
+                       │
+                       ▼
+              Acquisition & QC
+                       │
+             ┌─────────┴─────────┐
+             ▼                   ▼
+      Optical Pipeline       SAR Pipeline
+             │                   │
+             └─────────┬─────────┘
+                       ▼
+                Tiling & Metadata
+                       │
+                       ▼
+               AI / Embeddings
+             ┌─────────┼─────────┐
+             ▼         ▼         ▼
+        RemoteCLIP    BIT     HDBSCAN
+             │         │         │
+             └─────────┼─────────┘
+                       ▼
+                FAISS + Metadata
+                       │
+                       ▼
+                  FastAPI API
+                       │
+                       ▼
+               Analyst Workstation
 ```
 
-Core processing is performed locally, supporting controlled networks and
-air-gapped environments.
+---
 
-------------------------------------------------------------------------
+# 🔐 Sovereign by Design
 
-# Architecture
+AVLOKAN is designed for **local, offline and controlled environments**.
 
-``` text
-                         ┌─────────────────────┐
-                         │ Satellite Imagery   │
-                         │ S1 / S2 / Landsat   │
-                         │ / Bhuvan / EO Data  │
-                         └──────────┬──────────┘
-                                    │
-                                    ▼
-                         ┌─────────────────────┐
-                         │ Acquisition &       │
-                         │ Preprocessing        │
-                         │ Rasterio / GDAL      │
-                         │ SNAP / OpenCV        │
-                         └──────────┬──────────┘
-                                    │
-                         ┌──────────┴──────────┐
-                         ▼                     ▼
-                ┌─────────────────┐   ┌─────────────────┐
-                │ Optical Pipeline│   │ SAR Pipeline   │
-                │ Cloud / Shadow  │   │ Calibration     │
-                │ Masking         │   │ Speckle Filter │
-                │ Normalization   │   │ Terrain Corr.  │
-                └────────┬────────┘   └────────┬────────┘
-                         │                     │
-                         └──────────┬──────────┘
-                                    ▼
-                         ┌─────────────────────┐
-                         │ Tiling & Metadata   │
-                         └──────────┬──────────┘
-                                    │
-                                    ▼
-                         ┌─────────────────────┐
-                         │ AI / Embeddings     │
-                         │ RemoteCLIP /        │
-                         │ GeoRSCLIP           │
-                         │ BIT Change Detector │
-                         │ HDBSCAN Discovery   │
-                         └──────────┬──────────┘
-                                    │
-                       ┌────────────┴────────────┐
-                       ▼                         ▼
-              ┌─────────────────┐       ┌─────────────────┐
-              │ FAISS Vector    │       │ Metadata /      │
-              │ Index           │       │ Provenance      │
-              │ Incremental     │       │ PostgreSQL /    │
-              │ Retrieval       │       │ PostGIS         │
-              └────────┬────────┘       └────────┬────────┘
-                       │                         │
-                       └────────────┬────────────┘
-                                    ▼
-                         ┌─────────────────────┐
-                         │ FastAPI Backend     │
-                         └──────────┬──────────┘
-                                    │
-                                    ▼
-                         ┌─────────────────────┐
-                         │ Analyst Workstation │
-                         │ Retrieval           │
-                         │ Map                  │
-                         │ Change Analysis      │
-                         │ Review Queue         │
-                         │ Audit / Provenance   │
-                         └─────────────────────┘
+```text
+┌───────────────────────────────────────┐
+│             AVLOKAN NODE              │
+│                                       │
+│  Satellite Data                       │
+│       ↓                               │
+│  AI / Processing                      │
+│       ↓                               │
+│  Vector Index + Metadata              │
+│       ↓                               │
+│  FastAPI                              │
+│       ↓                               │
+│  Analyst Workstation                  │
+│                                       │
+└───────────────────────────────────────┘
 ```
 
-------------------------------------------------------------------------
+Imagery, queries, models, metadata, and analyst decisions can remain within the controlled environment.
 
-# Technology Stack
+---
 
-## AI / Computer Vision
+# 🧰 Technology Stack
 
--   PyTorch
--   RemoteCLIP
--   GeoRSCLIP
--   Bitemporal Image Transformer (BIT)
--   HDBSCAN
--   OpenCV
+| Layer           | Technologies                                         |
+| --------------- | ---------------------------------------------------- |
+| **AI / Vision** | PyTorch, RemoteCLIP, GeoRSCLIP, BIT, HDBSCAN, OpenCV |
+| **Geospatial**  | Rasterio, GDAL, ESA SNAP, GeoTIFF                    |
+| **EO Data**     | Sentinel-1, Sentinel-2, Landsat, Bhuvan / ISRO       |
+| **Retrieval**   | FAISS, vector embeddings                             |
+| **Storage**     | PostgreSQL, PostGIS                                  |
+| **Backend**     | Python, FastAPI, REST                                |
+| **Frontend**    | JavaScript, MapLibre GL JS                           |
+| **Deployment**  | Docker / Docker Compose                              |
 
-## Geospatial
+---
 
--   Rasterio
--   GDAL
--   ESA SNAP
--   GeoTIFF
--   Sentinel-1
--   Sentinel-2
--   Landsat Collection 2
+# 🚀 Quick Start
 
-## Retrieval & Storage
+### Demo
 
--   FAISS
--   PostgreSQL
--   PostGIS
--   Vector embeddings
--   Spatial metadata
--   Provenance records
+The local demo uses prepared data and does **not require a GPU or the complete imagery/model pipeline**.
 
-## Backend
-
--   Python
--   FastAPI
--   REST APIs
--   Docker / Docker Compose
-
-## Frontend
-
--   JavaScript / TypeScript
--   MapLibre GL JS
--   OpenFreeMap-compatible styling
--   Interactive geospatial visualization
--   Analyst review workflows
-
-------------------------------------------------------------------------
-
-# Data Sources
-
-  Source                 Role
-  ---------------------- ------------------------------------
-  Sentinel-2             Multispectral optical imagery
-  Sentinel-1             All-weather SAR imagery
-  Landsat Collection 2   Long-term optical archive
-  Bhuvan / ISRO          Indian Earth-observation ecosystem
-  Licensed EO sources    Extensible ingestion layer
-
-The system preserves acquisition metadata and geospatial referencing
-throughout the processing pipeline.
-
-------------------------------------------------------------------------
-
-# Models
-
-## RemoteCLIP / GeoRSCLIP
-
-Used for multimodal Earth-observation embeddings:
-
--   Text-to-image retrieval
--   Image-to-image retrieval
--   Similar-scene discovery
--   Archive indexing
-
-## BIT
-
-The Bitemporal Image Transformer is used for pixel-level change
-verification and produces per-pixel change probabilities.
-
-## HDBSCAN
-
-Used for similarity-based discovery and grouping of related imagery and
-candidate sites.
-
-------------------------------------------------------------------------
-
-# Change Detection Workflow
-
-``` text
-             T1                         T2
-              │                         │
-              ▼                         ▼
-        Quality Check             Quality Check
-              │                         │
-              └──────────┬──────────────┘
-                         ▼
-                  Co-registration
-                         │
-                         ▼
-                Embedding Gate
-                         │
-                         ▼
-                 Candidate Regions
-                         │
-                         ▼
-                BIT Pixel Verifier
-                         │
-              ┌──────────┴──────────┐
-              ▼                     ▼
-        Optical Result         SAR Verification
-              │                     │
-              └──────────┬──────────┘
-                         ▼
-                 Sensor Agreement
-                         │
-                         ▼
-                  Evidence Fusion
-                         │
-                         ▼
-                 Analyst Review
-                         │
-                         ▼
-                  Audit / Record
-```
-
-------------------------------------------------------------------------
-
-# Repository Structure
-
-``` text
-AVLOKAN/
-│
-├── configs/
-├── data/
-│   ├── raw/
-│   ├── processed/
-│   ├── demo/
-│   └── map/
-│
-├── docs/
-├── frontend/
-│   ├── css/
-│   ├── js/
-│   ├── assets/
-│   └── vendor/
-│
-├── models/
-├── pipeline/
-│   ├── acquisition/
-│   ├── preprocessing/
-│   ├── retrieval/
-│   ├── change_detection/
-│   ├── indexing/
-│   └── api/
-│
-├── tests/
-├── scripts/
-├── docker-compose.yml
-├── pyproject.toml
-├── requirements.txt
-└── README.md
-```
-
-------------------------------------------------------------------------
-
-# Installation
-
-## Requirements
-
-Recommended environment:
-
--   Python 3.11+
--   Node.js
--   Git
--   GDAL
--   Docker / Docker Compose
--   NVIDIA GPU with CUDA support for accelerated inference
-
-## Clone
-
-``` bash
-git clone https://github.com/<your-organization>/AVLOKAN.git
-cd AVLOKAN
-```
-
-## Python Environment
-
-### Windows
-
-``` powershell
+```powershell
+# Create environment
 python -m venv .venv
-.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-pip install -r requirements.txt
+
+# Activate
+.\.venv\Scripts\Activate.ps1
+
+# Install demo dependencies
+pip install -r requirements-demo.txt
 ```
 
-### Linux
+Start the backend:
 
-``` bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-```
-
-------------------------------------------------------------------------
-
-# Start the Backend
-
-``` bash
+```powershell
+$env:AVLOKAN_DEMO_MODE = "true"
 python -m uvicorn pipeline.api.app:app --host 127.0.0.1 --port 8000
 ```
 
-API:
+Start the frontend in a second terminal:
 
-``` text
-http://127.0.0.1:8000
-```
-
-Interactive documentation:
-
-``` text
-http://127.0.0.1:8000/docs
-```
-
-------------------------------------------------------------------------
-
-# Start the Frontend
-
-Serve the frontend using a local static server:
-
-``` bash
+```powershell
 cd frontend
 python -m http.server 5500
 ```
 
 Open:
 
-``` text
+```text
 http://127.0.0.1:5500
 ```
 
-------------------------------------------------------------------------
+API documentation:
 
-# API
-
-Representative endpoints:
-
-``` text
-GET  /api/health
-GET  /api/dashboard
-
-POST /api/search/text
-POST /api/search/image
-
-GET  /api/scenes/search
-
-GET  /api/change-analyses
-POST /api/change-analyses
-GET  /api/change-analyses/{id}
-
-GET  /api/change-analyses/{id}/sar-fallback
-GET  /api/change-analyses/{id}/sensor-agreement
-
-GET  /api/audit
-POST /api/review
-
-GET  /api/indexing/status
-POST /api/indexing/incremental-ingest
+```text
+http://127.0.0.1:8000/docs
 ```
 
-------------------------------------------------------------------------
+> The complete imagery and model pipeline requires additional dependencies and model checkpoints.
 
-# Evaluation
+---
 
-AVLOKAN includes evaluation workflows for:
+# 📊 Evaluation
 
--   Precision
--   Recall
--   F1 score
--   IoU
--   PR-AUC
--   Retrieval latency
--   Inference latency
--   Indexing latency
--   Storage footprint
--   Processing time
--   Incremental indexing behavior
+AVLOKAN supports evaluation across:
 
-The change-detection evaluation uses held-out remote-sensing data and
-threshold analysis to balance false alarms against missed changes.
+* Precision
+* Recall
+* F1
+* IoU
+* PR-AUC
+* Retrieval latency
+* Inference latency
+* Indexing latency
+* Processing time
+* Storage footprint
 
-------------------------------------------------------------------------
+Change-detection evaluation focuses on balancing **false alarms against missed changes**.
 
-# Provenance
+---
 
-Models and datasets are tracked with source information and processing
-lineage.
+# 🎯 Use Cases
 
-Research references include:
+### Border & Infrastructure Monitoring
 
-1.  Liu et al. (2024) --- **RemoteCLIP**, IEEE TGRS
-2.  Chen et al. (2024) --- **Remote Sensing Image Change Detection with
-    Transformers**, IEEE TGRS
-3.  Das et al. (2023) --- **Multi-Change Detection**, ISPRS
-4.  Zhan & Kovacs (2021) --- **Self-Supervised Change Detection**, arXiv
+Detect construction, structural changes, cleared areas, roads, and other infrastructure changes.
 
-Reference datasets include:
+### Disaster Response
 
--   OGCD
--   Sentinel-1
--   Sentinel-2
--   Landsat Collection 2
--   WHU-CD / BIChange
+Compare pre-event and post-event imagery to identify affected regions.
 
-------------------------------------------------------------------------
+### Environmental Monitoring
 
-# Use Cases
+Track changes in vegetation, water bodies, land cover, and surface disturbance.
 
-## Border & Infrastructure Monitoring
+### Intelligence Analysis
 
-Identify newly constructed infrastructure, structural changes, cleared
-areas, roads, and other relevant changes over time.
+Prioritize relevant imagery and candidate changes so analysts can focus on **verification rather than exhaustive scanning**.
 
-## Disaster Response
+---
 
-Compare pre-event and post-event imagery to identify affected areas.
+# 🧪 Research Foundation
 
-## Environmental Monitoring
+AVLOKAN builds upon research and open technologies including:
 
-Track changes in:
+* RemoteCLIP
+* GeoRSCLIP
+* Bitemporal Image Transformer (BIT)
+* HDBSCAN
+* FAISS
+* PyTorch
+* Rasterio
+* GDAL
+* ESA SNAP
+* OpenCV
+* MapLibre
 
--   Water bodies
--   Vegetation
--   Land cover
--   Construction
--   Surface disturbance
+Reference datasets include Sentinel-1, Sentinel-2, Landsat, OGCD, WHU-CD, and BIChange.
 
-## Infrastructure Planning
+---
 
-Search imagery archives for similar development patterns and monitor
-changes around infrastructure.
+# 👥 Project
 
-## Intelligence Analysis
-
-Prioritize semantically relevant scenes and candidate changes so
-analysts can focus on verification instead of exhaustive manual
-scanning.
-
-------------------------------------------------------------------------
-
-# Analyst Workflow
-
-``` text
-1. Search
-   ↓
-2. Discover relevant imagery
-   ↓
-3. Select observations
-   ↓
-4. Compare temporal imagery
-   ↓
-5. Inspect change heatmap
-   ↓
-6. Verify with complementary sensor evidence
-   ↓
-7. Review candidates
-   ↓
-8. Confirm / Reject
-   ↓
-9. Preserve provenance
-   ↓
-10. Audit the decision
-```
-
-The analyst remains in control of the final decision.
-
-------------------------------------------------------------------------
-
-# Why AVLOKAN?
-
-### Multimodal Search
-
-Search satellite archives using language or imagery.
-
-### Multi-Temporal Intelligence
-
-Move from individual scenes to temporal change analysis.
-
-### Multi-Sensor Verification
-
-Combine optical and SAR observations for complementary evidence.
-
-### Analyst-Centered Workflow
-
-Every candidate can be inspected through imagery, evidence, processing
-history, and provenance.
-
-### Incremental Architecture
-
-New imagery can be incorporated without rebuilding the entire archive.
-
-### Sovereign Deployment
-
-Designed for local, on-premises and offline environments.
-
-------------------------------------------------------------------------
-
-# Project Information
-
-**Project:** AVLOKAN\
-**Team:** Codenostic\
-**Smart India Hackathon:** 2026\
-**Problem Statement:** SIH26227\
-**Theme:** Space Technology\
-**Category:** Software\
+**AVLOKAN**
+**Team:** Codenostic
+**Smart India Hackathon:** 2026
+**Problem Statement:** SIH26227
+**Theme:** Space Technology
+**Category:** Software
 **Team ID:** 171288
 
-------------------------------------------------------------------------
-
-# License
-
-Add the project's selected license here.
-
-Model weights, datasets, satellite imagery, and third-party components
-remain subject to their respective licenses and usage terms.
-
-------------------------------------------------------------------------
-
-# Acknowledgements
-
-AVLOKAN builds on open research and geospatial technologies including:
-
--   ESA Sentinel missions
--   ISRO / Bhuvan ecosystem
--   Landsat
--   RemoteCLIP
--   GeoRSCLIP
--   BIT
--   FAISS
--   PyTorch
--   Rasterio
--   GDAL
--   ESA SNAP
--   OpenCV
--   FastAPI
--   PostgreSQL / PostGIS
--   MapLibre
-
-------------------------------------------------------------------------
+---
 
 ## AVLOKAN
 
-**Search the Earth. Detect change. Verify evidence. Preserve
-provenance.**
+> **Search the Earth. Detect change. Verify evidence. Preserve provenance.**
