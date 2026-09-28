@@ -280,35 +280,68 @@ AVLOKAN uses an incremental vector-indexing architecture to support continuously
 # 🏗️ Architecture
 
 ```text
-                 SATELLITE DATA
-             S1 / S2 / Landsat / EO
-                       │
-                       ▼
-              Acquisition & QC
-                       │
-             ┌─────────┴─────────┐
-             ▼                   ▼
-      Optical Pipeline       SAR Pipeline
-             │                   │
-             └─────────┬─────────┘
-                       ▼
-                Tiling & Metadata
-                       │
-                       ▼
-               AI / Embeddings
-             ┌─────────┼─────────┐
-             ▼         ▼         ▼
-        RemoteCLIP    BIT     HDBSCAN
-             │         │         │
-             └─────────┼─────────┘
-                       ▼
-                FAISS + Metadata
-                       │
-                       ▼
-                  FastAPI API
-                       │
-                       ▼
-               Analyst Workstation
+                                         ┌─────────────────────┐
+                         │ Satellite Imagery   │
+                         │ S1 / S2 / Landsat   │
+                         │ / Bhuvan / EO Data  │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │ Acquisition &       │
+                         │ Preprocessing        │
+                         │ Rasterio / GDAL      │
+                         │ SNAP / OpenCV        │
+                         └──────────┬──────────┘
+                                    │
+                         ┌──────────┴──────────┐
+                         ▼                     ▼
+                ┌─────────────────┐   ┌─────────────────┐
+                │ Optical Pipeline│   │ SAR Pipeline   │
+                │ Cloud / Shadow  │   │ Calibration     │
+                │ Masking         │   │ Speckle Filter │
+                │ Normalization   │   │ Terrain Corr.  │
+                └────────┬────────┘   └────────┬────────┘
+                         │                     │
+                         └──────────┬──────────┘
+                                    ▼
+                         ┌─────────────────────┐
+                         │ Tiling & Metadata   │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │ AI / Embeddings     │
+                         │ RemoteCLIP /        │
+                         │ GeoRSCLIP           │
+                         │ BIT Change Detector │
+                         │ HDBSCAN Discovery   │
+                         └──────────┬──────────┘
+                                    │
+                       ┌────────────┴────────────┐
+                       ▼                         ▼
+              ┌─────────────────┐       ┌─────────────────┐
+              │ FAISS Vector    │       │ Metadata /      │
+              │ Index           │       │ Provenance      │
+              │ Incremental     │       │ PostgreSQL /    │
+              │ Retrieval       │       │ PostGIS         │
+              └────────┬────────┘       └────────┬────────┘
+                       │                         │
+                       └────────────┬────────────┘
+                                    ▼
+                         ┌─────────────────────┐
+                         │ FastAPI Backend     │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │ Analyst Workstation │
+                         │ Retrieval           │
+                         │ Map                  │
+                         │ Change Analysis      │
+                         │ Review Queue         │
+                         │ Audit / Provenance   │
+                         └─────────────────────┘
 ```
 
 ---
@@ -400,25 +433,6 @@ http://127.0.0.1:8000/docs
 
 ---
 
-# 📊 Evaluation
-
-AVLOKAN supports evaluation across:
-
-* Precision
-* Recall
-* F1
-* IoU
-* PR-AUC
-* Retrieval latency
-* Inference latency
-* Indexing latency
-* Processing time
-* Storage footprint
-
-Change-detection evaluation focuses on balancing **false alarms against missed changes**.
-
----
-
 # 🎯 Use Cases
 
 ### Border & Infrastructure Monitoring
@@ -444,7 +458,6 @@ Prioritize relevant imagery and candidate changes so analysts can focus on **ver
 AVLOKAN builds upon research and open technologies including:
 
 * RemoteCLIP
-* GeoRSCLIP
 * Bitemporal Image Transformer (BIT)
 * HDBSCAN
 * FAISS
